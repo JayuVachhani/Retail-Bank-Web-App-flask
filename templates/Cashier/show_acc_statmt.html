@@ -1,0 +1,100 @@
+{% extends "Cashier/layout.html" %}
+{% block body %}
+<script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
+<!-- <script src="js/dist/jspdf.plugin.autotable.js"></script> -->
+<script src="{{url_for('static',filename='js/dist/jspdf.plugin.autotable.js')}}"></script>
+
+<div class="breadcrumb-option contact-breadcrumb" style="padding-bottom: 30px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Account Statement</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb Section End -->
+<div class="container">
+    <div class="row justify-content-center" id="table">
+        <table class="table table-striped" border="1" id="accountStatementListTable">
+            <tr>
+                <th>Customer Id</th>
+                <th>Transaction Id</th>
+                <th>Amount</th>
+                <th>Transaction Date</th>
+                <th>Mode</th>
+                <th>Source Account Type</th>
+                <th>Taget Account type</th>
+            </tr>
+
+            {% for account in data %}
+            <tr>
+                <td>{{data[0].customer_cid}}</td>
+
+                <td>{{account.transaction_id}}</td>
+
+
+                <td>{{account.ammount}}</td>
+
+
+                <td>{{account.transaction_date}}</td>
+
+
+                <td>{{account.mode}}</td>
+
+                <td>{{account.source_acc_type}}</td>
+
+
+                <td>{{account.target_acc_type}}</td>
+            </tr>
+            {%endfor%}
+        </table>
+    </div>
+
+
+    <div class="row justify-content-center">
+        <button class="site-btn" id="pdf" value="pdf">Download
+            as PDF</button>
+    </div>
+    <br>
+    <div class="row justify-content-center">
+        <button class="site-btn" id="excel" value="excel">Download as Excel</button>
+    </div>
+    <br>
+
+
+</div>
+
+<script>
+    $(function () {
+        var doc = new jsPDF();
+        var specialElementHandlers = {
+            '#editor': function (element, renderer) {
+                return true;
+            }
+        };
+
+        $('#pdf').click(function () {
+
+            // var table = tableToJson($('#accountStatementListTable').get(0))
+            // var doc = new jsPDF('p','pt', 'a4', true);
+            var doc = new jsPDF();
+
+
+            doc.autoTable({
+                html: '#accountStatementListTable',
+                theme: 'plain',
+                headStyles : {
+                    fillColor: [204, 75, 51]
+                }
+                
+            })
+            doc.save('sample-file.pdf');
+        });
+
+    });
+</script>
+
+{% endblock%}

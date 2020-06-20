@@ -1,0 +1,74 @@
+<!-- hello -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>User Login</title>
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+    <link href="{{ url_for('static',filename='styles/stylefiles.css') }}" rel="stylesheet" type="text/css">
+    <!--external css-->
+    <link href="{{url_for('static', filename='css/main.css')}}" rel="stylesheet" type="text/css">
+    <!-- jquery   -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- bootstrap js   -->
+    <script crossorigin="anonymous"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- fontawesome icons   -->
+    <link href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" rel="stylesheet">
+</head>
+
+<body class="main">
+
+<div class="regcontainer">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <section class="signup">
+                <div class="signup-content">
+                    {% from 'includes/_formhelpers.html' import render_field %}
+                    <form action="/login" class="signup-form" id="signup-form" method="post">
+                        <h2 class="form-title">Login</h2>
+                        {{form.csrf_token}}
+                        {{form.username(class_='form-input')}}
+                        {{form.password(class_='form-input')}}
+                        <div class="row form-group justify-content-center" style="margin-top: 10px;">
+                            <input class="site-btn" id="submit" name="submit" type="submit" value="Login"/>
+                        </div>
+                    </form>
+                    <p class="loginhere">
+                        Don't Have an account ? <a class="loginhere-link" href="{{url_for('register')}}">Register
+                        here</a>
+                    </p>
+
+                    <div class="row justify-content-center">
+                        <!-- SHow Validation Errors  -->
+                        <div class="col-lg">
+                            {% for error in form.username.errors %}
+                            <div class="row justify-content-center alert alert-danger" role="alert"
+                                 style="margin-top: 10px;">
+                                Username : {{error}}
+                            </div>
+                            {% endfor %} {% for error in form.password.errors %}
+                            <div class="row justify-content-center alert alert-danger" role="alert"
+                                 style="margin-top: 10px;">
+                                Password : {{error}}
+                            </div>
+                            {% endfor %}
+
+                            <div class="row justify-content-center" style="margin-top: 10px;">
+                                <!-- For showing Flash Messages from app.py -->
+                                {% include "flashmes.html" %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>
